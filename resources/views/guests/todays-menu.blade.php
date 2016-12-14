@@ -9,7 +9,7 @@
     <div class="tab-content clearfix">
       <div class="tab-pane active" id="todaysmenu">
         <h1>Todays Menu</h1>
-        <hr><br/>
+        <hr><br/>       
 
       <!-- Breakfast  -->
       <div class="row">
