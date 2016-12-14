@@ -34,7 +34,6 @@
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
-
         $('.dropdown-toggle').dropdown();
     </script>
 </head>
@@ -102,7 +101,7 @@
                 <ul class="admin_ul">
                   <li class="admin_ul"><span class="glyphicon glyphicon-user icns" ></span><a href="{{ url('/admin') }}">Guests</a></li>
                   <li class="admin_ul"><span class="glyphicon glyphicon-list-alt icns"></span><a href="{{ url('/menu') }}">Menu</a></li>
-                  <li class="admin_ul"><span class="glyphicon glyphicon glyphicon-tasks icns"></span><a href="{{ url('/transaction') }}">Guest Transactions</a></li>
+                  <li class="admin_ul"><span class="glyphicon glyphicon glyphicon-tasks icns"></span><a href="{{ url('/transactions') }}">Guest Transactions</a></li>
                 </ul>
 
               @else
