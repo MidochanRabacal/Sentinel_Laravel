@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMenuCatTable extends Migration
+class CreateMenuCatForeignkeyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateMenuCatTable extends Migration
      */
     public function up()
     {
-      Schema::create('menu_cat', function (Blueprint $table) {
-        $table->increments('menu_cat_id')->unsigned();
-        $table->string('menuCatName');
-        
-        $table->engine = 'InnoDB';
+      Schema::table('menus', function (Blueprint $table) {
+      $table->foreign('menu_cat_id')->references('menu_cat_id')->on('menu_cat');
       });
     }
 
@@ -28,6 +25,6 @@ class CreateMenuCatTable extends Migration
      */
     public function down()
     {
-        Schema::drop('menu_cat');
+        //
     }
 }

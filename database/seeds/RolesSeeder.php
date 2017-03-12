@@ -14,17 +14,17 @@ class RolesSeeder extends Seeder
     public function run()
     {
       DB::table('roles')->insert([
-        'slug' => 'admin',
-        'name' => 'Admin',
-        'created_at' => Carbon::now(),
-        'updated_at' => Carbon::now()
-      ]);
+      'slug' => 'admin',
+      'name' => 'Admin',
+      'created_at' => Carbon::now(),
+      'updated_at' => Carbon::now()
+    ]);
 
-      DB::table('roles')->insert([
-        'slug' => 'guest',
-        'name' => 'Guest',
-        'created_at' => Carbon::now(),
-        'updated_at' => Carbon::now()
-      ]);
+    DB::table('roles')->insert([
+      'slug' => 'guest',
+      'name' => 'Guest',
+      'created_at' => Carbon::now(),
+      'updated_at' => Carbon::now()
+    ]);
     }
 }

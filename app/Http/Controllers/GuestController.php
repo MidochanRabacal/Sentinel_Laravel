@@ -26,16 +26,16 @@ class GuestController extends Controller
       $date = Carbon::now()->format('y-m-d');
 
       $breakfasts = Menu::where('menu_cat.menuCatName', 'breakfast')
-              ->where('menuDate', $date)
-              ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
-              ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
-              ->get();
+             // ->where('menuDate', $date)
+             ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
+             ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
+             ->get();
 
       $dinners = Menu::where('menu_cat.menuCatName', 'dinner')
-              ->where('menuDate', $date)
-              ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
-              ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
-              ->get();
+            ->where('menuDate', $date)
+            ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
+            ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
+            ->get();
 
       // Query Breakfast Menu for tomorrow
       $tomorrow = Carbon::tomorrow('Asia/Hong_Kong')->format('y-m-d');
@@ -46,16 +46,16 @@ class GuestController extends Controller
 
 
       $breakfastsTmrw = Menu::where('menu_cat.menuCatName', 'breakfast')
-              ->where('menuDate', $tomorrow)
-              ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
-              ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
-              ->get();
+                ->where('menuDate', $tomorrow)
+                ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
+                ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
+                ->get();
 
       $dinnersTmrw = Menu::where('menu_cat.menuCatName', 'dinner')
-              ->where('menuDate', $tomorrow)
-              ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
-              ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
-              ->get();
+                ->where('menuDate', $tomorrow)
+                ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
+                ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
+                ->get();
 
       $yesterday = Carbon::yesterday();
       $ystrdy = $yesterday->toFormattedDateString();
@@ -92,44 +92,58 @@ class GuestController extends Controller
         {
           $AmCutoff = 0;
         }
-      else
-        {
-          $AmCutoff = 1;
-        }
+        else
+          {
+            $AmCutoff = 1;
+          }
 
-      // echo $timeString.'<br/>';
-      // echo $AmCutoff.'<br/>';
-      // echo $tmrrw_time;
+          // echo $timeString.'<br/>';
+          // echo $AmCutoff.'<br/>';
+          // echo $tmrrw_time;
 
-      if($AmCutoff == '0' && $transactionsBreakfast == '[]')
-        {
-          $breakfast_cutoff = 'Can Order';
-        }
-      else
-        {
-          $breakfast_cutoff = 'Cannot Order';
-        }
-      echo $breakfast_cutoff;
+          if($AmCutoff == '0' && $transactionsBreakfast == '[]')
+            {
+              $breakfast_cutoff = 'Can Order';
+            }
+          else
+            {
+              $breakfast_cutoff = 'Cannot Order';
+            }
+          echo $breakfast_cutoff;
+
+          //weekly calendar
+      date_default_timezone_set('Asia/Hong_Kong');
+      $year = (isset($_GET['year'])) ? $_GET['year'] : date("Y");
+      $week = (isset($_GET['week'])) ? $_GET['week'] : date('W');
+      if($week > 52) {
+          $year++;
+          $week = 1;
+      } elseif($week < 1) {
+          $year--;
+          $week = 52;
+      }
 
       return view('guests.index', [
-        'date' => $date,
-        'dateString' => $dateString,
-        'tomorrow' => $tomorrow,
-        'timeString' => $timeString,
-        'breakfasts' => $breakfasts,
-        'dinners' => $dinners,
-        'breakfastsTmrw' => $breakfastsTmrw,
-        'dinnersTmrw' => $dinnersTmrw,
-        'guest_id' => $guest_id,
-        'transactionsBreakfast' => $transactionsBreakfast,
-        'transactionsBreakfastTmrw' => $transactionsBreakfastTmrw,
-        'transactionsDinner' => $transactionsDinner,
-        'transactionsDinnerTmrw' => $transactionsDinnerTmrw,
-        'tmrrw' => $tmrrw,
-        'transactions' => $transactions,
-        'breakfast_cutoff' => $breakfast_cutoff
-      ]);
-    }
+       'date' => $date,
+       'dateString' => $dateString,
+       'tomorrow' => $tomorrow,
+       'timeString' => $timeString,
+       'breakfasts' => $breakfasts,
+       'dinners' => $dinners,
+       'breakfastsTmrw' => $breakfastsTmrw,
+       'dinnersTmrw' => $dinnersTmrw,
+       'guest_id' => $guest_id,
+       'transactionsBreakfast' => $transactionsBreakfast,
+       'transactionsBreakfastTmrw' => $transactionsBreakfastTmrw,
+       'transactionsDinner' => $transactionsDinner,
+       'transactionsDinnerTmrw' => $transactionsDinnerTmrw,
+       'tmrrw' => $tmrrw,
+       'transactions' => $transactions,
+       'breakfast_cutoff' => $breakfast_cutoff,
+       'year' => $year,
+       'week' => $week
+     ]);
+   }
 
     /**
      * Show the form for creating a new resource.
@@ -150,12 +164,12 @@ class GuestController extends Controller
     public function storeBreakfast(Request $request)
     {
       // validation
-       $this->validate($request,[
-         'guests_id' => 'required',
-         'menus_id' => 'required',
-         'transCat' => 'required|min:6',
-         'transDescription' => 'required',
-         'transDate' => 'required|date'
+      $this->validate($request,[
+        'guests_id' => 'required',
+        'menus_id' => 'required',
+        'transCat' => 'required|min:6',
+        'transDescription' => 'required',
+        'transDate' => 'required|date'
       ]);
        // create new data
        $transaction = new transaction;
@@ -171,12 +185,12 @@ class GuestController extends Controller
     public function storeBreakfastTmrw(Request $request)
     {
       // validation
-       $this->validate($request,[
-         'guests_id' => 'required',
-         'menus_id' => 'required',
-         'transCat' => 'required|min:6',
-         'transDescription' => 'required',
-         'transDate' => 'required|date'
+      $this->validate($request,[
+       'guests_id' => 'required',
+       'menus_id' => 'required',
+       'transCat' => 'required|min:6',
+       'transDescription' => 'required',
+       'transDate' => 'required|date'
       ]);
        // create new data
        $transaction = new transaction;
@@ -192,12 +206,12 @@ class GuestController extends Controller
     public function storeDinner(Request $request)
     {
       // validation
-       $this->validate($request,[
-         'guests_id' => 'required',
-         'menus_id' => 'required',
-         'transCat' => 'required|min:6',
-         'transDescription' => 'required',
-         'transDate' => 'required|date'
+      $this->validate($request,[
+        'guests_id' => 'required',
+        'menus_id' => 'required',
+        'transCat' => 'required|min:6',
+        'transDescription' => 'required',
+        'transDate' => 'required|date'
       ]);
        // create new data
        $transaction = new transaction;
@@ -213,7 +227,7 @@ class GuestController extends Controller
     public function storeDinnerTmrw(Request $request)
     {
       // validation
-       $this->validate($request,[
+       $$this->validate($request,[
          'guests_id' => 'required',
          'menus_id' => 'required',
          'transCat' => 'required|min:6',
