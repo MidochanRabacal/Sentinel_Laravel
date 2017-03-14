@@ -46,16 +46,16 @@ class GuestController extends Controller
 
 
       $breakfastsTmrw = Menu::where('menu_cat.menuCatName', 'breakfast')
-                ->where('menuDate', $tomorrow)
-                ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
-                ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
-                ->get();
+              ->where('menuDate', $tomorrow)
+              ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
+              ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
+              ->get();
 
       $dinnersTmrw = Menu::where('menu_cat.menuCatName', 'dinner')
-                ->where('menuDate', $tomorrow)
-                ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
-                ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
-                ->get();
+              ->where('menuDate', $tomorrow)
+              ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
+              ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
+              ->get();
 
       $yesterday = Carbon::yesterday();
       $ystrdy = $yesterday->toFormattedDateString();
@@ -102,25 +102,25 @@ class GuestController extends Controller
           // echo $tmrrw_time;
 
           if($AmCutoff == '0' && $transactionsBreakfast == '[]')
-            {
-              $breakfast_cutoff = 'Can Order';
-            }
-          else
-            {
-              $breakfast_cutoff = 'Cannot Order';
-            }
-          echo $breakfast_cutoff;
+        {
+          $breakfast_cutoff = 'Can Order';
+        }
+      else
+        {
+          $breakfast_cutoff = 'Cannot Order';
+        }
+      echo $breakfast_cutoff;
 
-          //weekly calendar
-      date_default_timezone_set('Asia/Hong_Kong');
+      //weekly calendar
+      date_default_timezone_set('Asian/Hong_Kong');
       $year = (isset($_GET['year'])) ? $_GET['year'] : date("Y");
-      $week = (isset($_GET['week'])) ? $_GET['week'] : date('W');
-      if($week > 52) {
-          $year++;
-          $week = 1;
+      $week = (isset($_GET['week'])) ? $_GET['week'] : date("W");
+      if ($week > 52) {
+            $year++;
+            $week++;
       } elseif($week < 1) {
-          $year--;
-          $week = 52;
+            $year--;
+            $week = 52;
       }
 
       return view('guests.index', [
@@ -140,8 +140,8 @@ class GuestController extends Controller
        'tmrrw' => $tmrrw,
        'transactions' => $transactions,
        'breakfast_cutoff' => $breakfast_cutoff,
-       'year' => $year,
-       'week' => $week
+       'year' = $year,
+       'week' = $week
      ]);
    }
 

@@ -31,11 +31,7 @@
         @for($day= 1; $day <= 31; $day++)
           <?php
           $d =  strtotime("$year-$month-$day");
-          echo "<td = id '".date('y-m-d', $d)."'>"
-                  .date('Md', $d) ."<br>". date('D', $d)
-              ."</td>";
-          $id = date('y-m-d', $d);
-
+          echo "<td = id '".date('y-m-d', $d)."'>". date('Md', $d) ."<br>". date('D', $d) ."</td>";
           ?>
         @endfor
     </tr>

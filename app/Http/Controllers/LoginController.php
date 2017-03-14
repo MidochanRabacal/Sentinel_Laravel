@@ -16,15 +16,22 @@ class LoginController extends Controller
 
     public function postLogin(Request $request)
     {
-      Sentinel::authenticate($request->all());
+      try{
+        if(Sentinel::authenticate($request->all())){
+          $slug=Sentinel::getUser()->roles()->first()->slug;
+            if($slug == 'admin')
+              return redirect('/admin');
 
-      $slug =Sentinel::getUser()->roles()->first()->slug;
+            elseif ($slug == 'guest')
+              return redirect('/guests');
+        } else {
+          return redirect()->back()->with(['error' => 'Incorrect log in credentials.']);
+        }
+    } catch (ThrottlingException $e) {
+        $delay = $e->getDelay();
 
-      if($slug == 'admin')
-        return redirect('/admin');
-
-      elseif($slug == 'guest')
-        return redirect ('/guests');
+        return redirect()->back()->with(['error' => "It looks like you are entering incorrect log in credentials. Try again after $delay seconds."]);
+    }
 
     }
 
@@ -32,6 +39,6 @@ class LoginController extends Controller
     {
       Sentinel::logout();
 
-      return redirect('/login');
+        return redirect('/login');
     }
 }

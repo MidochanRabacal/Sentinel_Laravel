@@ -17,7 +17,7 @@ Route::post('/forgot-password', 'ForgotPasswordController@postforgotPassword');
 
 //Admin routes
 Route::group(['middleware' => 'admin'], function(){
-  // Route::get('/registered-guests', 'AdminController@registeredGuests');
+ //Route::get('/registered-guests', 'AdminController@registeredGuests');
   Route::get('/register', 'RegistrationController@register');
   Route::post('/register', 'RegistrationController@store');
 
