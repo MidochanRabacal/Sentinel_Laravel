@@ -388,50 +388,66 @@
 
 
     <div class="tab-pane" id="myaccount">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4>
-                <a class="collapse_link">
-                  {{ Sentinel::getUser()->first_name}} {{ Sentinel::getUser()->last_name}}
-                </a>
-              </h4>
-            </div>
-              <div class="panel-body">
-                <table class="table">
-                  <tr>
-                    <th>No.</th>
-                    <th>Date</th>
-                    <th>Item</th>
-                    <th>Description</th>
-                    <th>Item Price</th>
-                  </tr>
-                  <?php $no=1; ?>
-                  @foreach($transactions as $transaction)
-                  <tr>
-                    <td>{{$no++}}</td>
-                    <td>{{$transaction->transDate}}</td>
-                    <td>{{$transaction->transCat}}</td>
-                    <td>{{$transaction->transDescription}}</td>
-                    <td>{{$transaction->menuPrice}}</td>
-                  </tr>
-                  @endforeach
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><b>Total</b></td>
-                    <td></td>
-                  </tr>
-                </table>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4>
+                    <a class="collapse_link">
+                      {{ Sentinel::getUser()->first_name}} {{ Sentinel::getUser()->last_name}}
+                    </a>
+                  </h4>
+                </div>
+                  <div class="panel-body">
+                    <table class="table">
+                      <tr>
+                        <th>No.</th>
+                        <th>Date</th>
+                        <th>Item</th>
+                        <th>Description</th>
+                        <th>Item Price</th>
+                      </tr>
+
+                      <?php
+                      $no=1;
+                      $total = array();
+                      ?>
+
+                      @foreach($transactions as $transaction)
+                      <tr>
+                        <td>{{$no++}}</td>
+                        <td>{{$transaction->transDate}}</td>
+                        <td>{{$transaction->transCat}}</td>
+                        <td>{{$transaction->transDescription}}</td>
+                        <td>{{$transaction->menuPrice}}</td>
+                      </tr>
+
+                      <?php
+                        array_push($total, $transaction->menuPrice);
+                      ?>
+                      @endforeach
+
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                          <b>Total</b>
+                        </td>
+                        <td>
+                          <?php
+                            echo array_sum($total);
+                          ?>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
-
         </div>
-      </div>
-    </div>
 
-  </div>
-@stop
+      </div>
+    @stop

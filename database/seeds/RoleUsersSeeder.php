@@ -15,5 +15,6 @@ class RoleUsersSeeder extends Seeder
         'user_id' => 1,
         'role_id' => 1
       ]);
+      
     }
 }

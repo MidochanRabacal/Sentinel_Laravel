@@ -14,12 +14,13 @@ class ActivationsSeeder extends Seeder
     public function run()
     {
       DB::table('activations')->insert([
-       'user_id' => 1,
-       'code' => rand(255, 255),
-       'completed' => 1,
-       'completed_at' => Carbon::now(),
-       'created_at' => Carbon::now(),
-       'updated_at' => Carbon::now()
-     ]);
+        'user_id' => 1,
+        'code' => rand(255, 255),
+        'completed' => 1,
+        'completed_at' => Carbon::now(),
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now()
+      ]);
+
     }
 }

@@ -29,12 +29,17 @@
       @endif
 
         @for($day= 1; $day <= 31; $day++)
-          <?php
-          $d =  strtotime("$year-$month-$day");
-          echo "<td = id '".date('y-m-d', $d)."'>". date('Md', $d) ."<br>". date('D', $d) ."</td>";
-          ?>
+        <?php
+        $d =  strtotime("$year-$month-$day");
+        echo "<td = id '".date('y-m-d', $d)."'>"
+                .date('Md', $d) ."<br>". date('D', $d)
+            ."</td>";
+        $id = date('y-m-d', $d);
+
+        ?>
         @endfor
-    </tr>
+        <td> total </td>
+      </tr>
 
     @foreach ($guests as $guest)
     <tr>
@@ -51,6 +56,7 @@
           echo "<td = id '".date('y-m-d', $d)."'>"."</td>";
           ?>
         @endfor
+        <td> Total of the month </td>
     </tr>
     @endforeach
   </table>
