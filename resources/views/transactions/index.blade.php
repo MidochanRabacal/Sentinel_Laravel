@@ -38,25 +38,27 @@
 
         ?>
         @endfor
-        <td> total </td>
+        <td><b> Total </b></td>
       </tr>
 
     @foreach ($guests as $guest)
     <tr>
-      <td>{{$guest->first_name}}&nbsp;&nbsp;{{$guest->last_name}}</td>
+      <td><strong>{{$guest->last_name}}&nbsp;&nbsp;{{$guest->first_name}}</strong></td>
 
       @if($date < 31)
         <?php
           $date = $date;
+          $total = array();
         ?>
       @endif
         @for($day= 1; $day <= 31; $day++)
           <?php
           $d =  strtotime("$year-$month-$day");
-          echo "<td = id '".date('y-m-d', $d)."'>"."</td>";
+          echo "<td> B/D  </td>"; // (will show the transaction of the guest) echo "<td = id '".date('y-m-d', $d)."'>"."</td>"; //-previous code
           ?>
+
         @endfor
-        <td> Total of the month </td>
+        <td> total transaction </td> <!-- will show the total transaction of the guest for the whole month -->
     </tr>
     @endforeach
   </table>

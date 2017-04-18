@@ -26,7 +26,7 @@ class GuestController extends Controller
       $date = Carbon::now()->format('y-m-d');
 
     $breakfasts = Menu::where('menu_cat.menuCatName', 'breakfast')
-            // ->where('menuDate', $date)
+            ->where('menuDate', $date)
             ->leftJoin('menu_cat', 'menus.menu_cat_id', '=', 'menu_cat.menu_cat_id')
             ->select('menus.*', 'menu_cat.menu_cat_id', 'menu_cat.menuCatName')
             ->get();
@@ -110,6 +110,9 @@ class GuestController extends Controller
               $breakfast_cutoff = 'Cannot Order';
             }
           echo $breakfast_cutoff;
+
+          
+
 
       //weekly calendar
       date_default_timezone_set('Asia/Hong_Kong');

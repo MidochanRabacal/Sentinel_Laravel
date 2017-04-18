@@ -32,6 +32,7 @@ class TransactionController extends Controller
         'week' => $week,
         'month' => $month,
         'date' => $date
+
       ]);
     }
 }
